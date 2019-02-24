@@ -232,6 +232,10 @@ RCT_EXPORT_METHOD(getAuthStatus: (NSDictionary *)input callback:(RCTResponseSend
     [self getAuthorizationStatus:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(openAppleHealth) {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"x-apple-health://"]];
+}
+
 
 - (void)isHealthKitAvailable:(RCTResponseSenderBlock)callback
 {
@@ -306,6 +310,8 @@ RCT_EXPORT_METHOD(getAuthStatus: (NSDictionary *)input callback:(RCTResponseSend
 
 - (void)getAuthorizationStatus:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
 {
+    self.healthStore = [[HKHealthStore alloc] init];
+
     if ([HKHealthStore isHealthDataAvailable]) {
         
         NSArray* readPermsArray;
